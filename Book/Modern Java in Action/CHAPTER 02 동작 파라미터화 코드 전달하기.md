@@ -99,6 +99,75 @@
 
 * 2.3 복잡한 과정 간소화
 
+    * 익명 클래스
+
+    * 다섯번째 시도 : 익명 클래스 사용
+
+    ```java
+    List<Apple> redApples2 = filter(inventory, new ApplePredicate() {
+        @Override
+        public boolean test(Apple a) {
+            return a.getColor() == Color.RED;
+        }
+    });
+    ```
+
+    * 여섯번째 시도 : 람다 표현식 사용
+    ```java
+    List<Apple> result = filterApples(inventory, (Apple apple) -> Color.RED == apple.getColor());
+    ```
+
+    * 일곱번째 시도 : 리스트 형식으로 추상화
+    ```java
+    public interface Predicate<T> {
+        boolean test(T t);
+    }
+
+    public static <T> List<T> filter(List <T> list, Predicate<T> p) {
+        List<T> result = new ArrayList<>();
+        for(T e: list) {
+            if(p.test(e)) {
+                result.add(e);
+            }
+        }
+        return result;
+    }
+
+    // 빨간 사과
+    List<Apple> redApples = filter(inventory, (Apple apple)->Color.RED == apple.getColor());
+    // 2의 배수
+    List<Integer> evenNumbers = filter(numbers, (Integer i)->i % 2 == 0);
+    ```
+
 * 2.4 실전 예제
+
+    * Comparator 로 정렬하기
+    ```java
+    public interface Comparator<T> {
+        int compare(T o1,T o2);
+    }
+
+    // 무게가 적은 순서로 목록 정렬
+    inventory.sort(new Comparator<Apple>() {    // 익명클래스
+        pulbic int compare(Apple a1, Apple a2) {
+            return a1.getWeight().compareTo(a2.getWeight());
+        }
+    });
+
+    inventory.sort((Apple a1, Apple a2)-> a1.getWeight().compareTo(a2.getWeight())); // 람다형식
+    ```
+
+    * Runnable 로 코드 블록 실행하기
+    ```java
+    public interface Runnable { void run();} // java.lang.Runnable
+
+    Thread t = new Thread(new Runnalbe() {
+        pulic void run() {
+            System.out.println("Hello World");
+        }
+    });
+
+    Thread t = new Thread(()-> System.out.println("Hello World")); // 람다형식
+    ```
 
 * 2.5 마치며
