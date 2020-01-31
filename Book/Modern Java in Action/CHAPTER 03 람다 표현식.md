@@ -178,10 +178,38 @@
     박싱(boxing)        기본형 -> 참조형 변환 기능 
     언박싱(unboxing)    참조형 -> 기본형 변환 기능
     ```
+    |사용 사례|람다 예제|대응하는 함수형 인터페이스|
+    |---|---|---|
+    |Boolean 표현|(List<String> list) -> list.isEmpty()|Predicate<List<String>>|
+    |객체 생성|() -> new Apple(10)|Supplier<Apple>|
+    |객체에서 소비|(Apple a) -> System.out.println(a.getWeight())|Consumer<Apple>|
+    |객체에서 선택/추출|(String s) -> s.length()|Function<String,Integer> 또는 ToIntFunction<String>|
+    |두 값 조합|(int a, int b) -> a * b|IntBinaryOperator|
+    |두 객체 비교|(Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight())|Comparator<Apple> 또는 BiFunction<Apple, Apple, Integer> 또는 ToIntBiFunction<Apple, Apple>|
 
 * 3.5 형식 검사, 형식 추론, 제약
+
+    * 형식 추론
+    ```java
+    // 형식을 추론 하지 않음
+    Comparator<Apple> c = (Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight());
+    // 형식을 추론함
+    Comparator<Apple> c = (a1, a2) -> a1.getWeight().compareTo(a2.getWeight());
+    ```
+
+    * 지역 변수 사용
+    ```java
+    int portNumber = 1337;
+    Runnable r = () -> System.out.println(portNumber);
+    
+    portNumber = 31337; 
+    // 에러: 람다에서 참고하는 지역변수는 final로 선언되거나 실질적으로 final 처럼 취급해야함
+    ```
+
 * 3.6 메서드 참조
+
 * 3.7 람다, 메서드 참조 활용하기
 * 3.8 람다 표현식을 조합할 수 있는 유용한 메서드
 * 3.9 비슷한 수학적 개념
 * 3.10 마치며
+
