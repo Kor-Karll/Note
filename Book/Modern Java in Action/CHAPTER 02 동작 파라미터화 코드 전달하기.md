@@ -170,4 +170,14 @@
     Thread t = new Thread(()-> System.out.println("Hello World")); // 람다형식
     ```
 
-* 2.5 마치며
+    * GUI 이벤트 처리하기
+    ```java
+    Button button = new Button("Send");
+    button.setOnAction(new EventHandler<ActionEvent>(){
+        public void handler(ActionEvent event) {
+            label.setText("Sent!!");
+        }
+    });
+
+    button.setOnAction((ActionEvent evnet) -> label.setText("Sent!!")); // 람다 표현식
+    ```
