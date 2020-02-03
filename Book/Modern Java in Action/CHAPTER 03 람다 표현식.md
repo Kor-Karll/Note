@@ -208,6 +208,42 @@
 
 * 3.6 메서드 참조
 
+    |람다|메서드 참조 단축 표현
+    |---|---|
+    |(Apple apple) -> apple.getWeigth()|Apple::getWeight|
+    |() -> Thread.currentThread().dumpStack()|Thread.currentThread()::dumpStack|
+    |(str, i) -> str.substring(i)|String::substring|
+    |(String s) -> System.out.println(s) <br> (String s) -> this.isValidname(s)|System.out::println<br>this::isValidName
+
+    1. 정적 메서드 참조
+    ```java
+    Integer::parseInt
+    ```
+    2. 다양한 형식의 인스턴스 메서드 참조
+    ```java
+    String::length
+    ```
+    3. 기존 객체의 인스턴스 메서드 참조
+    ```java
+    private boolean isValidName(String string) {
+        return Character.isUpperCase(string.charAt(0));
+    }
+
+    filter(words, this::isValidName);
+    ```
+
+    * 예제
+    ```java
+    1. ToIntFunction<String> stringToInt = (String s) -> Integer.parseInt(s);
+    => Function<String, Integer> stringToInteger = Integer::parseInt;
+
+    2. BiPredicate<List<String>, String> contains = (list, element) -> list.contains(element);
+    => BiPredicate<List<String>, String> contains = List::contains;
+
+    3. Predicate<String> startsWithNumber = (String string) -> this.startsWithNumber(string);
+    => Predicate<String> startsWithNumber = this::startsWithNumber;
+    ```
+
 * 3.7 람다, 메서드 참조 활용하기
 * 3.8 람다 표현식을 조합할 수 있는 유용한 메서드
 * 3.9 비슷한 수학적 개념
