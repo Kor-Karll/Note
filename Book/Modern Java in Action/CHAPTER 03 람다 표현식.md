@@ -244,8 +244,139 @@
     => Predicate<String> startsWithNumber = this::startsWithNumber;
     ```
 
+    * 생성자 참조
+    ```java
+    Supplier<Apple> c1 = Apple::new;
+    Apple a1 = c1.get();    // Supplier의 get 메서드를 호출해서 새로운 Apple객체를 만들 수 있다
+
+    // 위 예제는 다음 코드와 같다
+
+    Supplier<Apple> c1 = () -> new Apple(); // 람다 표현식은 디폴트 생성자를 가진 Apple을 만든다
+    Apple a1 = c1.get();
+
+    Function<Integer, Apple> c2 = Apple::new;
+    Apple a2 = c2.apply(110);   // Function의 apply 메서드에 무게를 인수로 호출해서 새로운 Apple 객체를 만들 수 있다
+
+    // 이 코드는 다음과 같다
+
+    Function<Integer, Apple> c2 = (weight) -> new Apple(weight); // 특정 무게의 사과를 만드는 람다 표현식
+    Apple a2 = c2.apply(110);
+
+    List<Integer> weights = Arrays.asList(7,3,4,10);
+    List<Apple> apples = map(weights, Apple::new);
+    pulbic List<Apple> map(List<Integer> list, Function<Integer, Apple> f) {
+        List<Apple> result = new ArrayList<>();
+        for(Integer i : list) {
+            result.add(f.apply(i));
+        }
+        return result;
+    }
+
+    BiFunction<Color, Integer, Apple> c3 = Apple::new;
+    Apple a3 = c3.apply(GREEN, 110);    // BiFunction의 apply 메서드에 색과 무게를 인수로 새로운 Apple객체를 만들수 있다
+
+    // 이 코드는 다음과 같다
+
+    BiFunction<String, Integer, Apple> c3 = (color, weight) -> new Apple(color, weight); // 특정 색과 무게를 가진 사과를 만드는 람다 표현식
+    Apple a3 = c3.apply(GREEN, 110);
+
+    static Map<String, Function<Integer, Fruit>> map = new HashMap<>();
+    static {
+        map.put("apple", Apple::new);
+        map.put("orange", Orange::new);
+        ...
+    }
+
+    public static Fruit giveMeFuit(String fruit, Integer weight) {
+        return map.get(fruit.toLowerCase()) // map에서 Function<Integer, Fruit>를 얻었다
+                    .apply(weight); // Function 의 apply메서드에 정수 무게 파라미터로 Fruit를 만들수있다
+    }
+    ```
+
 * 3.7 람다, 메서드 참조 활용하기
+
+    * 1단계 : 코드 전달
+    ```java
+    void sort(Comparator<? super E> c)
+
+    public class AppleComparator implements Comparator<Apple> {
+        public int compare(Apple a1, Apple a2) {
+            return a1.getWeight().compareTo(a2.getWeight());
+        }
+    }
+
+    inventory.sort(new AppleComparator());
+    ```
+
+    * 2단계 : 익명 클래스 사용
+    ```java
+    inventory.sort(new Comparator<Apple>() {
+        public int compare(Apple a1, Apple a2) {
+            return a1.getWeight().compareTo(a2.getWeight());
+        }
+    });
+    ```
+
+    * 3단계 : 람다 표현식 사용
+    ```java
+    inventory.sort((Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight));
+
+    => inventory.sort((a1, a2) -> a1.getWeight().compareTo(a2.getWeight)); // 형식 추론
+
+    => 
+    Comparator<Apple> c = Comparator.comparing((Apple a) -> a.getWeight());
+    import static java.util.Comparator.comparing;
+    inventory.sort(comparing(apple -> apple.getWeight()));
+    ```
+
+    * 4단계 : 메서드 참조 사용
+    ```java
+    inventory.sort(comparing(Apple::getWeight));
+    ```
+
 * 3.8 람다 표현식을 조합할 수 있는 유용한 메서드
+
+    * Comparator 조합
+    ```java
+    Comparator<Apple> c = Comparator.comparing(Apple::getWeight);
+
+    // 역정렬
+    inventory.sort(comparing(Apple::getWeight).reversed());
+    ```
+
+    * Comperator 연결
+    ```java
+    inventory.sort(comparing(Apple::getWeight)
+             .reversed()
+             .thenComparing(Apple::getCountry)); // 두 사과의 무게가 같으면 국가별로 정렬
+    ```
+
+    * Predicate 조합
+    ```java
+    // negate 반전 -> 빨간색이 아닌 사과
+    Predicate<Apple> notRedApple = redApple.negate();
+    // and -> 빨간색이면서 무게가 150이상인 사과
+    Predicate<Apple> redAndHeavyApple = redApple.and(apple -> apple.getWeight() > 150);
+    // or -> 빨간색이면서 무게가 150이상인 사과 또는 녹색 사과
+    Predicate<Apple> redAndHeavyAppleOrGreen = 
+        redApple.and(apple -> apple.getWeight() > 150)
+                .or(apple -> GREEN.equals(apple.getColor()));
+    ```
+
+    * Function 조합
+    ```java
+    Function<Integer, Integer> f = x -> x + 1;
+    Function<Integer, Integer> g = x -> x * 2;
+
+    // andThen
+    Function<Integer, Integer> h = f.andThen(g);
+    int result = h.apply(1); // 결과 : 4
+    
+    // compose
+    Function<Integer, Integer> h = f.compose(g);
+    int result = h.apply(1); // 결과 : 3
+    ```
+
 * 3.9 비슷한 수학적 개념
 * 3.10 마치며
 
