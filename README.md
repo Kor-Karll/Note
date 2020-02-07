@@ -23,7 +23,10 @@
 * <details>
     <summary>MariaDB 강의</summary>
 
-    * [01. MariaDB 시작.md](https://github.com/Kor-Karll/Note/blob/master/%EA%B0%95%EC%9D%98/MariaDB%20%EA%B0%95%EC%9D%98/01.%20MariaDB%20%EC%8B%9C%EC%9E%91.md)
+    * [01. MariaDB 시작](https://github.com/Kor-Karll/Note/blob/master/%EA%B0%95%EC%9D%98/MariaDB%20%EA%B0%95%EC%9D%98/01.%20MariaDB%20%EC%8B%9C%EC%9E%91.md)
+
+    * [02. 기동 및 쿼리 실행과 실행 계획 분석](https://github.com/Kor-Karll/Note/blob/master/%EA%B0%95%EC%9D%98/MariaDB%20%EA%B0%95%EC%9D%98/02.%20%EA%B8%B0%EB%8F%99%20%EB%B0%8F%20%EC%BF%BC%EB%A6%AC%20%EC%8B%A4%ED%96%89%EA%B3%BC%20%EC%8B%A4%ED%96%89%20%EA%B3%84%ED%9A%8D%20%EB%B6%84%EC%84%9D.md)
+
 
 
 </details>
