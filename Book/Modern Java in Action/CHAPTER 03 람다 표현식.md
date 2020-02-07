@@ -208,7 +208,7 @@
 
 * 3.6 메서드 참조
 
-    |람다|메서드 참조 단축 표현
+    |람다|메서드 참조 단축 표현|
     |---|---|
     |(Apple apple) -> apple.getWeigth()|Apple::getWeight|
     |() -> Thread.currentThread().dumpStack()|Thread.currentThread()::dumpStack|

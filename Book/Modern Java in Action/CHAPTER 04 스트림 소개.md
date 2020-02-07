@@ -45,9 +45,43 @@
 
 * 4.2 스트림 시작하기
 
-    * 
+    * filter : 람다를 인수로 받아 스트림에서 특정 요소를 제외
+    * map : 람다를 이용해서 한 요소를 다른 요소로 변환하거나 정보를 추출
+    * limit : 정해진 개수 이상의 요소가 스트림에 저장되지 못하게 스트림 크기를 축소
+    * collect : 스트림을 다른 형식으로 변환
 
 * 4.3 스트림과 컬렉션
+
+    * 스트림은 단 한번만 소비할 수 있다
+    ```java
+    List<String> title = Arrays.asList("Java8","In","Action");
+    Stream<String> s = title.stream();
+    s.forEach(System.out::println); // title의 각 단어를 출력
+    s.forEach(System.out::println); // java.lang.IllegalStateException: 스트림이 이미 소비되었거나 닫힘
+    ```
+    * 외부반복 : 컬렉션 인터페이스를 사용하려면 사용자가 직접 요소를 반복
+    * 내부반복 : 스트림 라이브러리
+
 * 4.4 스트림 연산
+
+    * 중간연산 : 연결할 수 있는 스트림 연산(filter,map,limit,...)
+
+    |연산|반환형식|연산의 인수|함수 디스크립터|
+    |---|---|---|---|
+    |filter|Stream\<T>|Predicate\<T>|T -> boolean|
+    |map|Stream\<R>|Function\<T, R>| T -> R|
+    |limit|Stream\<T>|||
+    |sorted|Stream\<T>|Comparator\<T>|(T, T) -> int|
+    |distinct|Stream\<T>|||
+
+
+    * 최종연산 : 스트림을 닫는 연산(collect,...)
+
+    |연산|반환형식|목적|
+    |---|---|---|
+    |forEach|void|스트림의 각 요소를 소비하면서 람다를 적용|
+    |count|long(generic)|스트림의 요소 개수를 반환|
+    |collect||스트림의 리듀스해서 리스트,맵,정수 형식의 컬렉션을 만듬|
+    
 * 4.5 로드맵
 * 4.6 마치며
