@@ -15,6 +15,9 @@
   * [CHAPTER 03 람다 표현식](https://github.com/Kor-Karll/Note/blob/master/Book/Modern%20Java%20in%20Action/CHAPTER%2003%20%EB%9E%8C%EB%8B%A4%20%ED%91%9C%ED%98%84%EC%8B%9D.md)
 
   * [CHAPTER 04 스트림 소개](https://github.com/Kor-Karll/Note/blob/master/Book/Modern%20Java%20in%20Action/CHAPTER%2004%20%EC%8A%A4%ED%8A%B8%EB%A6%BC%20%EC%86%8C%EA%B0%9C.md)
+
+  * [CHAPTER 05 스트림 활용]
+  (https://github.com/Kor-Karll/Note/blob/master/Book/Modern%20Java%20in%20Action/CHAPTER%2005%20%EC%8A%A4%ED%8A%B8%EB%A6%BC%20%ED%99%9C%EC%9A%A9.md)
   </details>
 
 
