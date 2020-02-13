@@ -29,6 +29,8 @@
 
     * [02. 기동 및 쿼리 실행과 실행 계획 분석](https://github.com/Kor-Karll/Note/blob/master/%EA%B0%95%EC%9D%98/MariaDB%20%EA%B0%95%EC%9D%98/02.%20%EA%B8%B0%EB%8F%99%20%EB%B0%8F%20%EC%BF%BC%EB%A6%AC%20%EC%8B%A4%ED%96%89%EA%B3%BC%20%EC%8B%A4%ED%96%89%20%EA%B3%84%ED%9A%8D%20%EB%B6%84%EC%84%9D.md)
 
+    * [03. 통계정보](https://github.com/Kor-Karll/Note/blob/master/%EA%B0%95%EC%9D%98/MariaDB%20%EA%B0%95%EC%9D%98/03.%ED%86%B5%EA%B3%84%EC%A0%95%EB%B3%B4.md)
+
 
 
 </details>
