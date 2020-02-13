@@ -107,7 +107,78 @@
     ```
     
 * 5.4 검색과 매칭
+
+    * 프레디케이트가 적어도 한 요소와 일치하는지 확인
+    ```java
+    if(menu.stream().anyMatch(Dish::isVegetarian)) {
+        System.out.println("The menu is (some what) vegetarian friendly!!");
+    }
+    // anyMatch 는 boolean 을 반환하므로 최종 연산
+    ```
+
+    * 프레디케이트가 모든 요소와 일치하는지 검사
+    ```java
+    // allMatch
+    boolean isHealthy = menu.stream()
+                            .allMatch(dish -> dish.getCalories() < 1000);
+
+    // noneMatch ( allMatch 의 반대 기능 )
+    boolean isHealthy = menu.stream()
+                            .noneMatch(dish -> dish.getCalories() >= 1000);
+    ```
+
+    * 쇼트서킷 평가
+
+        전체 스트림을 처리하지 않았더라도 결과를 반환(allMatch,noneMatch,findFirst,findAny,limit...)
+
+    * 첫 번째 요소 찾기
+    ```java
+    // 제3으로 나누어떨어지는 첫번째 제곱값
+    List<Integer> someNumbers = Arrays.asList(1,2,3,4,5);
+    Optional<Integer> firstSquareDivisibleByThree =
+        someNumbers.stream()
+                   .map(n -> n * n)
+                   .filter(n -> n % 3 == 0)
+                   .findFirst(); // 9
+    ```
+
 * 5.5 리듀싱
+
+    * 리듀싱 연산(폴드) : 모든 스트림 요소를 처리해서 값으로 도출
+
+    ```java
+    int sum = 0;
+    for ( int x : numbers ) {
+        sum += x;
+    }
+
+    ==>
+    // reduce는 두개의 인수를 갖는다
+    // 초깃값
+    // 두 요소를 조합해서 새로운 값을 만드는 BinaryOperator<T>
+    int sum = numbers.stream()
+                     .reduce(0, (a,b) -> a + b);
+
+    ==>
+
+    int sum = numbers.stream()
+                     .reduce(0, Integer::sum);
+
+    int product = numbers.stream()
+                         .reduce(1, (a,b) -> a * b);
+    ```
+
+    * 최댓값, 최솟값
+    ```java
+    // 최댓값
+    Optional<Integer> max = numbers.stream()
+                                   .reduce(Integer::max);
+
+    // 최솟값
+    Optional<Integer> max = numbers.stream()
+                                   .reduce(Integer::min);
+    ```
+
 * 5.6 실전 연습
 * 5.7 숫자형 스트림
 * 5.8 스트림 만들기
