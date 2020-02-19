@@ -180,6 +180,108 @@
     ```
 
 * 5.6 실전 연습
+
+    * 2011년에 일어난 모든 트랜잭션을 찾아서 값을 오름차순으로 정렬
+    ```java
+    List<Transaction> tr2011 = transactions.stream()
+                                           .filter(transaction -> transaction.getYear() == 2011)
+                                           .sorted(comparing(Transaction::getValue))
+                                           .collect(toList());
+    ```
+
+    * 거래자가 근무하는 모든 도시를 중복없이 나열
+    ```java
+    List<String> cities = transactions.stream()
+                                      .map(transaction -> transaction.getTrader().getCity())
+                                      .distinct()
+                                      .collect(toList());
+    ```
 * 5.7 숫자형 스트림
+
+    * 기본형 특화 스트림 (IntStream,DoubleStream...)
+    ```java
+    // 숫자 스트림으로 매핑
+    int calories = menu.stream()
+                       .mapToInt(Dish::getCalories)
+                       .sum();
+
+    // 객체 스트림으로 복원
+    IntStream intStream = menu.stream().mapToInt(Dish::getCalories);
+    Stream<Integer> stream = intStream.boxed();
+
+    // 기본값 : OptionalInt
+    OptionalInt maxCalories = menu.stream()
+                                  .mapToInt(Dish::getCalories)
+                                  .max();
+    int max = maxCalories.orElse(1);    // 값이 없을 때 기본 최댓값을 명시적으로 설정
+
+    // 숫자범위
+    IntStream evenNumbers = IntStream.rangeClosed(1,100)        // [1,100]의 범위
+                                     .filter(n -> n % 2 == 0);  // 짝수
+    ```
 * 5.8 스트림 만들기
-* 5.9 마치며
+
+    * 값으로 스트림 만들기
+    ```java
+    Stream<String> stream = Stream.of("Modern","Java","In","Action");
+    // 모든 문자열 대문자로 변환후 하나씩 출력
+    stream.map(String::toUpperCase).forEach(System.out::println);   
+
+    Stream<String> emptyStream = Stream.empty(); // 스트림 비우기
+    ```
+
+    * null이 될 수 있는 객체로 스트림 만들기(ofNullable)
+    ```java
+    Stream<String> values =
+        Stream.of("config","home","user")
+            .filatMap(key -> Stream.ofNullable(System.getProperty(key)));
+
+    ```
+
+    * 배열로 스트림 만들기(Arrays.stream)
+    ```java
+    int[] numbers = {2,3,5,7,11,13};
+    int sum = Arrays.stream(numbers).sum(); // 합계 41
+    ```
+
+    * 파일로 스트림 만들기
+    ```java
+    // 파일에 고유한 단어수 세기
+    long uniqueWords = 0;
+    try(Stream<String> lines = 
+            Files.lines(Paths.get("data.txt"), Charset.defaultCharset())){
+        uniqueWords = lines.flatMap(line -> Arrays.stream(line.split(" ")))
+                           .distinct()
+                           .count();
+    }
+    catch(IOException e){
+        // 파일을 열다가 예외가 발생하면 처리
+    }
+    ```
+
+    * 함수로 무한 스트림 만들기
+
+        * iterate 메서드
+        ```java
+        Stream.iterate(0, n -> n + 2) // 무한 스티림(언바운드 스트림)
+              .limit(10)
+              .forEach(System.out::println);
+
+        IntStream.iterate(0, n -> n < 100, n -> n + 4) // 프레디케이트 지원
+                 .forEach(System.out::println);
+
+        IntStream.iterate(0, n -> n + 4)
+                 .takeWhile(n -> n < 100>)
+                 .forEach(System.out::println);
+        ```
+
+        * generate 메서드
+        ```java
+        // generate 는 Supplier<T>를 인수로 받아 새로운값 생성
+        Stream.generate(Math::random)
+              .limit(5)
+              .forEach(System.out::println);
+
+        // IntStream의 generate는 IntSupplier 인수
+        IntStream ones = IntStream.generate(() -> 1);
+        ```
