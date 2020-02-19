@@ -19,8 +19,15 @@ for(Transaction transaction : transactions) { // 트랜잭션 리스트를 반�
     }
     transactionForCurrency.add(transaction); // 같은 통화를 가진 트랜잭션 리스트에 현재 탐색중인 트랜잭션 추가
 }
+
+==>
+
+Map<Currency, List<Transaction>> transactionByCurrencies = 
+    transactions.stream().collect(groupingBy(Transaction::getCurrency));
 ```
+
 * 6.1 컬렉터란 무엇인가?
+    
 * 6.2 리듀싱과 요약
 * 6.3 그룹화
 * 6.4 분할
